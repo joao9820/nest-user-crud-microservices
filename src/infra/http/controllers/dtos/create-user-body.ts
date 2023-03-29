@@ -14,8 +14,8 @@ export class CreateUserBody {
   @Length(5, 240)
   email: string;
 
-  @IsNotEmpty()
+  /* @IsNotEmpty()
   @Length(5, 240)
-  avatar: string;
+  avatar: string; */
   
 }

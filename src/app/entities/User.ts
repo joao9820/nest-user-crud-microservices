@@ -6,7 +6,7 @@ export interface UserProps {
   firstName: string;
   lastName: string;
   email: string;
-  avatar?: string; 
+  //avatar?: string; 
   createdAt: Date;
   updatedAt?: Date | null;
 }
@@ -25,6 +25,10 @@ export class User {
       createdAt: props.createdAt ?? new Date(),
     };
   }
+
+  public set id(id: string){
+    this._id = id;
+  } 
 
   public get id(){
     //Futuramente, como todas as entinties possuem um id, pode se criar uma classe separada para tal informação e importá-la
@@ -60,18 +64,10 @@ export class User {
     return this.props.email;
   }
 
-  /*o Typescript tem algumas formas de checagem, com o strict mode ativado, no tsconfig.json ele realiza uma checagem de tipo mais
-  profunda, é necessário ativar para entender que readAt deve ser Date | null | undefined, pois dessa forma considera o null e undefined
-  como possíveis valores de retorno e de envio*/
-  /* public set readAt(readAt: Date | null | undefined){
-    this.props.readAt = readAt;
+  /* public get avatar(): string | undefined{
+    return this.props.avatar;
   } */
 
-  public get avatar(): string | undefined{
-    return this.props.avatar;
-  }
-
-  //Não precisamos de um método set para data de criação, apenas precisamos buscar esse valor que é setado pelo próprio DB
   public get createdAt(){
     return this.props.createdAt;
   }

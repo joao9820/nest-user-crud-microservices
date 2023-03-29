@@ -11,30 +11,6 @@ export class inMemoryUserRepository implements UserRepository {
 
   public users: User[] = [];
 
-  /* async findById(id: string): Promise<User | null> {
-    const user = this.users.find((item) => item.id === id);
-
-    if(!user)
-      return null;
-
-    return user;
-  } */
-
-  /* async getByRecipient(recipientId: string): Promise<Notification[]> {
-    return this.notifications.filter((noti) => noti.recipientId === recipientId);
-  }
-
-  async countManyByRecipient(recipientId: string): Promise<number> {
-    
-    return this.notifications.filter((noti) => noti.recipientId === recipientId).length;
-
-  } */
-
- /*  async create(user: User): Promise<User> {
-     this.users.push(user);
-
-     return user;
-  } */
   findAvatar(recipientId: string): Promise<number> {
     throw new Error("Method not implemented.");
   }
@@ -47,8 +23,5 @@ export class inMemoryUserRepository implements UserRepository {
 
     return user;
 
-  }
-  findById(id: string): Promise<User | null> {
-    throw new Error("Method not implemented.");
   }
 };

@@ -7,7 +7,7 @@ export class SendEmailService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      service: 'sandbox.smtp.mailtrap.io',
+      host: 'sandbox.smtp.mailtrap.io',
       port: 2525,
       auth: {
         user: 'dc5b8de3260f12',

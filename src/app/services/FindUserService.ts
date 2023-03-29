@@ -19,7 +19,6 @@ type FindUserResponse = {
 @Injectable()
 export class FindUserService {
 
-  //O atributo poderia ser declarado no construct, colocando private antes de notificationRepository
   constructor(private userRepository: UserRepository, private httpService: HttpService){
     this.userRepository = userRepository;
     this.httpService = httpService;

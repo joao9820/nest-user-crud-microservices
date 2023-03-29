@@ -8,8 +8,7 @@ export default class UserControllerMapper {
       id: user.id,
         first_name: user.firstName,
         last_name: user.lastName,
-        email: user.email,
-        avatar: user.avatar,
+        email: user.email
     });
   }
 }

@@ -1,7 +1,16 @@
-
+import { User } from "@application/entities/User";
+import { makeUser } from "@test/factories/userFactory";
 import { inMemoryUserRepository } from "../../../test/repositories/inMemoryUserRepository";
-import { CreateUserService } from "./CreateUserService";
+
 //import * from 'axios';
+
+export interface ClientProxy {
+  send(pattern: string, simulation: any): any;
+  connect(): any;
+  close(): any;
+  routingMap(): any;
+}
+
 
 describe('Create User', () => {
 
@@ -9,24 +18,16 @@ describe('Create User', () => {
 
     const userRepository = new inMemoryUserRepository();
 
-    const createUser = new CreateUserService(userRepository);
-
-    //call reqress
-   /*  var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://reqres.in/api/products/3", true);
-    xhr.data
-    xhr.onload = function(){
-        console.log(xhr.responseText);
-    };
-    xhr.send(); */
+    //Necessary mock EventEmitter and ClientProxy
+    //const createUser = new CreateUserService(userRepository, new EventEmitter2(), null);
   
-   const {user} = await createUser.execute({
+   const user = makeUser({
       firstName: 'João Victor',
       lastName: 'Morgado Viana',
       email: 'joaovictorv9820@gmail.com',
-      avatar: 'assets/img.png',
     });
 
+    await userRepository.create(user);
     //console.log(userRepository.users);
   
     expect(userRepository.users).toHaveLength(1);

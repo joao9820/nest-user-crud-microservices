@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { SendEmailService } from '../services/SendEmailService';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { UserCreatedEvent } from '@application/events/userCreated.event';
+import { EventPattern } from '@nestjs/microservices';
 
 @Injectable()
 export class UserCreatedHandler {
@@ -10,13 +11,14 @@ export class UserCreatedHandler {
     //private readonly eventEmitter: EventEmitter2,
   ) {}
 
+  //@EventPattern('user.created')
   @OnEvent('user.created')
   async handleUserCreatedEvent(event: UserCreatedEvent) {
-    console.log('listen event');
+    //console.log('event triggered');
     await this.mailService.sendEmail(
       event.email,
-      'Welcome to our app!',
-      'Thank you for joining our app!',
+      'User created sucessfully',
+      `Thank you for joining our team  ${event.firstName}!`,
     );
   }
 }

@@ -11,8 +11,8 @@ export class User {
   lastName: string;
   @Prop({type: String, required: true})
   email: string;
-  @Prop({type: String})
-  avatar: string;
+ /*  @Prop({type: String})
+  avatar: string; */
   @Prop({type: Date, default: Date.now()})
   createdAt: string;
 }

@@ -4,9 +4,8 @@ import { CreateUserService } from '@application/services/CreateUserService';
 import { CreateUserBody } from './dtos/create-user-body';
 import { FindUserService } from '@application/services/FindUserService';
 import UserControllerMapper from './mapper/UserControllerMapper';
-import { DeleteUserService } from '@application/services/DeleteUserService';
-import { UserCreatedEvent } from '@application/events/userCreated.event';
-import { EventEmitter2 } from '@nestjs/event-emitter';
+import { DeleteAvatarUserService } from '@application/services/DeleteAvatarUserService';
+import { FindAvatarService } from '@application/services/FindAvatarUserService';
 
 
 //O nestjs utiliza um conceito chamado decorator através do '@' os decorators (decorar) acoplam funcionamento de uma maneira mágica à aplicação
@@ -16,7 +15,9 @@ export class UsersController {
   /*O next utiliza a inversão de dependência ao invés do app.controller buscar a funcionalidade em outro arquivo,
   ele recebe a funcionalidade como um parâmetro quando a classe será instanciada semelhante ao pattern repository do laravel*/
   constructor(private createUser: CreateUserService, 
-    private findUser: FindUserService, private deleteUser: DeleteUserService, private eventEmitter: EventEmitter2) {}
+    private findUser: FindUserService, 
+    private findAvatarService: FindAvatarService,
+    private deleteUser: DeleteAvatarUserService) {}
 
 
   @Get('/:userId')
@@ -45,14 +46,17 @@ export class UsersController {
   async findAvatar(@Param('userId') userId: string){
 
     try{
-      const {user} = await this.findUser.execute({
+      const {avatar} = await this.findAvatarService.execute({
         userId: userId
        });
    
-       return user ? UserControllerMapper.toHttp(user) : null;
+       return {avatar};
 
     }catch(err){
-      return {error: err}
+
+      //console.log(err);
+
+      return err
     }
     
   }
@@ -61,18 +65,25 @@ export class UsersController {
   @Post('/')
   async create(@Body() body: CreateUserBody){
 
-    const {first_name, last_name, email, avatar} = body;
+    const {first_name, last_name, email} = body;
 
-    const {user} = await this.createUser.execute({
-      firstName: first_name, lastName: last_name, email, avatar
-    });
+    try{
 
-    const userCreatedEvent = new UserCreatedEvent('<h1>Hello</h1>');
-    this.eventEmitter.emit('user_created', userCreatedEvent);
+      //console.log('teste');
 
-    return {
-        user: UserControllerMapper.toHttp(user),
-    };
+      const {user} = await this.createUser.execute({
+        firstName: first_name, lastName: last_name, email
+      });
+  
+      return {
+          user: UserControllerMapper.toHttp(user),
+      };
+
+    }catch(err){
+
+      return err;
+
+    }
 
   }
 
@@ -81,7 +92,7 @@ export class UsersController {
 
     try{
 
-      this.deleteUser.execute({userId});
+      await this.deleteUser.execute({userId});
 
       return true;
 
