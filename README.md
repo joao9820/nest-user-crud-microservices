@@ -18,8 +18,15 @@ $ npm run start:prod
 ```
 
 ## Api Routes
-# Default domain: localhos:3000
-# All routes prefixed with (api/user)
+* Default domain: http://localhost:3000
+* All routes prefixed with (api/user)
+
+# Microservice Rabbitmq
+* Default port: http://localhost:5672
+* This App is Producer
+
+# Email Service Mailtrap
+* Insert your configurations in SendEmailService.ts
 
 ## Test
 
